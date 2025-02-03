@@ -21,17 +21,28 @@ class Mauer(turtle.Turtle):
         self.penup()
         self.speed(0)
 
-class Essen(turtle.Turtle):
-    def __init__(self,x,y):
+class Feld(turtle.Turtle):
+    def __init__(self):
         turtle.Turtle.__init__(self)
-        self.shape("apple.gif")
+        self.shape("square")
+        self.color("green")
         self.penup()
         self.speed(0)
-        self.goto(x, y)
 
     def destroy(self):
         self.goto(2000,2000)
         self.hideturtle()
+
+class Tail(turtle.Turtle):
+    def __init__(self,x,y):
+        turtle.Turtle.__init__(self)
+        self.shape("square")
+        self.color("white")
+        self.penup()
+        self.speed(0)
+        self.goto(x, y)
+        self.past_x=0
+        self.past_y=0
 
 
 class Spieler(turtle.Turtle):
@@ -120,36 +131,41 @@ Levelliste = [""]
 
 Level_1 =[
 "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
-"X                                                 X",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFPFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
 "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 ]
 
-Schatzliste = []
-
 Levelliste.append(Level_1)
+
+Schatzliste = []
+Mauerliste = []
+Tailliste = []
+Feldliste = []
+
+
 
 def Start(n):
     for y in range(len(n)):
@@ -169,14 +185,17 @@ def Start(n):
                 player.goto(screen_x, screen_y)
             
             if character == "F":
-                Feld.goto(screen_x, screen_y)
+                feld.goto(screen_x, screen_y)
+                feld.stamp()
+                Feldliste.append((screen_x, screen_y))
 
 
 
 Stein = Mauer()
 player = Spieler(None)
+feld = Feld()
 
-Mauerliste = []
+
 Start(Levelliste[1])
 
 
