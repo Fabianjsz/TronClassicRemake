@@ -21,6 +21,8 @@ class Mauer(turtle.Turtle):
         self.shape("wall.gif")
         self.penup()
         self.speed(0)
+
+
 # Relevant
 class Essen(turtle.Turtle):
     def __init__(self,x,y):

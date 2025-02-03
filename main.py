@@ -21,6 +21,19 @@ class Mauer(turtle.Turtle):
         self.penup()
         self.speed(0)
 
+class Essen(turtle.Turtle):
+    def __init__(self,x,y):
+        turtle.Turtle.__init__(self)
+        self.shape("apple.gif")
+        self.penup()
+        self.speed(0)
+        self.goto(x, y)
+
+    def destroy(self):
+        self.goto(2000,2000)
+        self.hideturtle()
+
+
 class Spieler(turtle.Turtle):
     def __init__(self, dir):
         turtle.Turtle.__init__(self)
@@ -106,32 +119,32 @@ def Anzeige(x):
 Levelliste = [""]
 
 Level_1 =[
-"XXXXXXXXXXXXXXXXXXXXXXXXX",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"X                       X",
-"XXXXXXXXXXXXXXXXXXXXXXXXX"
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"X                                                 X",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 ]
 
 Schatzliste = []
@@ -154,6 +167,9 @@ def Start(n):
             #Spieler
             if character == "P":
                 player.goto(screen_x, screen_y)
+            
+            if character == "F":
+                Feld.goto(screen_x, screen_y)
 
 
 
