@@ -43,10 +43,10 @@ class Tail(turtle.Turtle):
         self.past_y=0
 
 class Spieler(turtle.Turtle):
-    def __init__(self, dir):
+    def __init__(self, dir, color):
         turtle.Turtle.__init__(self)
         self.shape("square")
-        self.color("blue")
+        self.color(color)
         self.penup()
         self.speed(0)
         self.lastDirection = dir
@@ -55,26 +55,26 @@ class Spieler(turtle.Turtle):
 
     def move(self):
         if self.lastDirection == "up":
-            move_to_x = player.xcor()
-            move_to_y = player.ycor() + 20
+            move_to_x = self.xcor()
+            move_to_y = self.ycor() + 20
             if (move_to_x, move_to_y) not in Mauerliste:
                 self.goto(move_to_x, move_to_y)
 
         if self.lastDirection == "right":
-            move_to_x = player.xcor() + 20
-            move_to_y = player.ycor()
+            move_to_x = self.xcor() + 20
+            move_to_y = self.ycor()
             if (move_to_x, move_to_y) not in Mauerliste:
                 self.goto(move_to_x, move_to_y)
 
         if self.lastDirection == "down":
-            move_to_x = player.xcor()
-            move_to_y = player.ycor() - 20
+            move_to_x = self.xcor()
+            move_to_y = self.ycor() - 20
             if (move_to_x, move_to_y) not in Mauerliste:
                 self.goto(move_to_x, move_to_y)
 
         if self.lastDirection == "left":
-            move_to_x = player.xcor() - 20
-            move_to_y = player.ycor()
+            move_to_x = self.xcor() - 20
+            move_to_y = self.ycor()
             if (move_to_x, move_to_y) not in Mauerliste:
                 self.goto(move_to_x, move_to_y)
 
@@ -116,20 +116,8 @@ Levelliste = [""]
 Level_1 = [
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
-    "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
-    "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
-    "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
     "XTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
-    "XTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
-    "XPFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
-    "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
-    "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
-    "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
-    "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
-    "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
-    "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
-    "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
-    "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+    "XPFFFFFFFFFFFFFFFFFFFFFFFFFFFFGFX",
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 ]
 Levelliste.append(Level_1)
@@ -154,6 +142,9 @@ def Start(n):
             if character == "P":
                 player.goto(screen_x, screen_y)
 
+            if character == "G":
+                enemy.goto(screen_x, screen_y)
+
             if character == "T":
                 feld.goto(screen_x, screen_y)
                 feld.stamp()
@@ -163,28 +154,37 @@ def Start(n):
                 Schatzliste.append(Schatz(screen_x, screen_y))
 
 Stein = Mauer()
-player = Spieler(None)
+player = Spieler("right", "blue")
+enemy = Spieler("left", "red")
 feld = Feld()
 
 Start(Levelliste[1])
 
 turtle.listen()
-turtle.onkey(partial(player.changeDir, "left"), "Left")
-turtle.onkey(partial(player.changeDir, "right"), "Right")
-turtle.onkey(partial(player.changeDir, "up"), "Up")
-turtle.onkey(partial(player.changeDir, "down"), "Down")
+turtle.onkey(partial(player.changeDir, "up"), "w")
+turtle.onkey(partial(player.changeDir, "left"), "a")
+turtle.onkey(partial(player.changeDir, "down"), "s")
+turtle.onkey(partial(player.changeDir, "right"), "d")
+
+turtle.onkey(partial(enemy.changeDir, "left"), "j")
+turtle.onkey(partial(enemy.changeDir, "right"), "l")
+turtle.onkey(partial(enemy.changeDir, "up"), "i")
+turtle.onkey(partial(enemy.changeDir, "down"), "k")
 
 Fenster.tracer(0)
 
 while playing:
     player.move()
+    enemy.move()
 
     # Überprüfe, ob der Spieler mit einem Schatz kollidiert
     for schatz in Schatzliste[:]:
         if player.kollision(schatz):
             schatz.destroy()  # Zerstöre den Schatz
             Schatzliste.remove(schatz)  # Entferne den Schatz aus der Liste
-
+        elif enemy.kollision(schatz):
+            schatz.destroy()
+            Schatzliste.remove(schatz)
     time.sleep(0.0005)
     Anzeige(player.health, player.gold)  # Zeige Health und Gold des Spielers an
     Fenster.update()
