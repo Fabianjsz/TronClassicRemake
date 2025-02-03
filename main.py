@@ -28,34 +28,35 @@ class Spieler(turtle.Turtle):
         self.color("blue")
         self.penup()
         self.speed(0)
-        self.lastDirecton = dir
+        self.lastDirection = dir
         self.health = 3
         
 
-    def move(self, lastDirection):
-        if lastDirection == "up":
+    def move(self):
+        if self.lastDirection == "up":
             move_to_x = player.xcor()
             move_to_y = player.ycor()+20
             if (move_to_x, move_to_y) not in Mauerliste:
                 self.goto(move_to_x, move_to_y)
             
-        if lastDirection == "right":
+        if self.lastDirection == "right":
             move_to_x = player.xcor()+20
             move_to_y = player.ycor()
             if (move_to_x, move_to_y) not in Mauerliste:
                 self.goto(move_to_x, move_to_y)
 
-        if lastDirection == "down":
+        if self.lastDirection == "down":
             move_to_x = player.xcor()
             move_to_y = player.ycor()-20
             if (move_to_x, move_to_y) not in Mauerliste:
                 self.goto(move_to_x, move_to_y)
 
-        if lastDirection == "left":
+        if self.lastDirection == "left":
             move_to_x = player.xcor()-20
             move_to_y = player.ycor()
             if (move_to_x, move_to_y) not in Mauerliste:
                 self.goto(move_to_x, move_to_y)
+
 
     def changeDir(self, dir):
         print(dir)
@@ -164,17 +165,17 @@ Start(Levelliste[1])
 
 
 turtle.listen()
-turtle.onkey(player.changeDir("left"), "Left")
-turtle.onkey(player.changeDir("right"), "Right")
-turtle.onkey(player.changeDir("up"), "Up")
-turtle.onkey(player.changeDir("down"), "Down")
+turtle.onkey(partial(player.changeDir, "left"), "Left")
+turtle.onkey(partial(player.changeDir, "right"), "Right")
+turtle.onkey(partial(player.changeDir, "up"), "Up")
+turtle.onkey(partial(player.changeDir, "down"), "Down")
 
 Fenster.tracer(0)
 
 
 while playing:
-    player.move(player.lastDirection)
-    time.sleep(0.5)
+    player.move()
+    time.sleep(0.08)
     Anzeige(player.health)
     Fenster.update()
     
