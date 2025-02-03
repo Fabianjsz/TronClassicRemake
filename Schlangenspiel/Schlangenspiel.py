@@ -8,17 +8,13 @@ Fenster = turtle.Screen()
 Fenster.bgcolor("black")
 Fenster.title("Labyrinth")
 Fenster.setup(1800, 900)
-Fenster.addshape("wall.gif")
-Fenster.addshape("gold.gif")
-Fenster.addshape("tail.gif")
-Fenster.addshape("kopf.gif")
-Fenster.addshape("apple.gif")
+
 
 
 class Mauer(turtle.Turtle):
     def __init__(self):
         turtle.Turtle.__init__(self)
-        self.shape("wall.gif")
+        self.shape("square")
         self.penup()
         self.speed(0)
 
@@ -27,7 +23,7 @@ class Mauer(turtle.Turtle):
 class Essen(turtle.Turtle):
     def __init__(self,x,y):
         turtle.Turtle.__init__(self)
-        self.shape("apple.gif")
+        self.shape("square")
         self.penup()
         self.speed(0)
         self.goto(x, y)
@@ -39,7 +35,7 @@ class Essen(turtle.Turtle):
 class Tail(turtle.Turtle):
     def __init__(self,x,y):
         turtle.Turtle.__init__(self)
-        self.shape("tail.gif")
+        self.shape("square")
         self.penup()
         self.speed(0)
         self.goto(x, y)
@@ -47,12 +43,13 @@ class Tail(turtle.Turtle):
         self.past_y=0
 
 class Spieler(turtle.Turtle):
-    def __init__(self, lastMove):
+    def __init__(self):
         turtle.Turtle.__init__(self)
-        self.shape("kopf.gif")
+        self.shape("square")
         self.penup()
         self.speed(0)
-        self.lastMove = lastMove
+        self.gold = 0
+        self.hp = 100
         self.past_x=0
         self.past_y=0
         self.status = "alive"
@@ -348,26 +345,6 @@ while L1 == True:
         turtle.clearscreen()
         with open("Lab (part3).py") as file:
             exec(file.read())
-    for Key in Keyliste:
-        if player.kollision(Key) and player.gold >= Key.kosten:
-            player.gold = player.gold - Key.kosten
-            player.key = player.key + 1
-            Key.destroy()
-            Keyliste.remove(Key)
-    for Door in Doorliste:
-        if player.kollision(Door): 
-            if player.key > 0:
-                player.key = player.key - 1
-                Door.destroy()
-                Doorliste.remove(Door)
-            else:
-                player.go_down()
-    for Schatz in Schatzliste:
-        if player.kollision(Schatz):
-            player.gold = player.gold + Schatz.gold
-            print("Player Gold: {}".format(player.gold))
-            Schatz.destroy()
-            Schatzliste.remove(Schatz)
     if player.status == "alive":
         Anzeige("Gold: "+ str(player.gold))
         Anzeige2("Hp: "+ str(player.hp))
@@ -378,6 +355,4 @@ while L1 == True:
     Fenster.update()
     if len(Essenliste) == 0:
         turtle.clearscreen()
-        with open("Lab (end).py") as file:
-            exec(file.read())
 Fenster.mainloop()
