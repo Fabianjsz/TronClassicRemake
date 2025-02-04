@@ -111,14 +111,13 @@ class Spieler(turtle.Turtle):
         return False
 
 class Schatz(turtle.Turtle):
-    def __init__(self, x, y):
+    def __init__(self):
         turtle.Turtle.__init__(self)
         self.shape("square")
         self.color("green")
         self.penup()
         self.speed(0)
         self.gold = 100
-        self.goto(x, y)
 
     def destroy(self):
         self.goto(2000, 2000)
@@ -173,12 +172,14 @@ def Start(n):
                 enemy.goto(screen_x, screen_y)
 
             if character == "F":
-                Schatzliste.append(Schatz(screen_x, screen_y))
+                feld.goto(screen_x ,screen_y)
+                feld.stamp()
+                Schatzliste.append((screen_x, screen_y))
 
 Stein = Mauer()
 player = Spieler("right", "blue")
 enemy = Spieler("left", "red")
-feld = Feld()
+feld = Schatz()
 
 Start(Levelliste[1])
 
@@ -201,10 +202,10 @@ while playing:
 
     # Überprüfe, ob der Spieler mit einem Schatz kollidiert
     for schatz in Schatzliste[:]:
-        if player.kollision(schatz):
+        if player.kollision():
             schatz.destroy()  # Zerstöre den Schatz
             Schatzliste.remove(schatz)  # Entferne den Schatz aus der Liste
-        elif enemy.kollision(schatz):
+        elif enemy.kollision():
             schatz.destroy()
             Schatzliste.remove(schatz)
     if player.check_tail_collision():
