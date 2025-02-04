@@ -60,6 +60,7 @@ class Spieler(turtle.Turtle):
         return self.color
     
     def move(self, color):
+        global Tailliste
         current_x = self.xcor()
         current_y = self.ycor()
 
@@ -89,6 +90,8 @@ class Spieler(turtle.Turtle):
                 self.goto(move_to_x, move_to_y)
         
         self.tail.append(Tail(current_x, current_y, color))
+        temp = current_x, current_y
+        Tailliste.append(temp)
 
     def changeDir(self, dir):
         if self.lastDirection == "right" and dir == "left":
@@ -110,9 +113,19 @@ class Spieler(turtle.Turtle):
             return True
         else:
             return False
+        
+    def tailKollision(self):
+        temp = Tailliste[schwanz]
+        a = self.xcord() - temp[0]
+        b = self.ycord() - temp[1]
+        distance = math.sqrt((a**2) + (b**2))
+        if distance < 5:
+            return True
+        else:
+            return False
 
     def get_tail_position(self):
-        return[(tail.xcor(), tail.ycor()) for tail in self.tail]
+        return[(Tailliste[0], Tailliste[1]) for tail in Tailliste]
     
     def check_tail_collision(self):
         if (self.xcor(), self.ycor()) in self.get_tail_position():
@@ -215,13 +228,21 @@ while playing:
         elif enemy.kollision(schatz):
             schatz.destroy()
             Schatzliste.remove(schatz)
+    for schwanz in Tailliste[:]:
+        if player.tailKollision(schwanz):
+            print("kollision")
+            playing = False
+        elif enemy.tailKollision(schwanz):
+            print("kollision")
+            playing = ("kollision")
+    """
     if player.check_tail_collision():
         print("kollision mit Schwanz. Spiel vorbei")
         playing = False
     elif enemy.check_tail_collision():
         print("kolision mit schwnaz, spiel vorbei")
         playing = False
-
+"""
     time.sleep(0.0005)
     Fenster.update()
 
