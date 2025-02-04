@@ -185,7 +185,6 @@ def Start(n):
                 feld.goto(screen_x ,screen_y)
                 feld.stamp()
                 Schatzliste.append(temp)
-                print(Schatzliste)
 
 Stein = Mauer()
 player = Spieler("right", "blue")
