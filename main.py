@@ -65,26 +65,26 @@ class Spieler(turtle.Turtle):
 
 
         if self.lastDirection == "up":
-            move_to_x = self.xcor()
-            move_to_y = self.ycor() + 20
+            move_to_x = current_x
+            move_to_y = current_y + 20
             if (move_to_x, move_to_y) not in Mauerliste:
                 self.goto(move_to_x, move_to_y)
 
         if self.lastDirection == "right":
-            move_to_x = self.xcor() + 20
-            move_to_y = self.ycor()
+            move_to_x = current_x + 20
+            move_to_y = current_y
             if (move_to_x, move_to_y) not in Mauerliste:
                 self.goto(move_to_x, move_to_y)
 
         if self.lastDirection == "down":
-            move_to_x = self.xcor()
-            move_to_y = self.ycor() - 20
+            move_to_x = current_x
+            move_to_y = current_y - 20
             if (move_to_x, move_to_y) not in Mauerliste:
                 self.goto(move_to_x, move_to_y)
 
         if self.lastDirection == "left":
-            move_to_x = self.xcor() - 20
-            move_to_y = self.ycor()
+            move_to_x = current_x - 20
+            move_to_y = current_y
             if (move_to_x, move_to_y) not in Mauerliste:
                 self.goto(move_to_x, move_to_y)
         
@@ -132,12 +132,19 @@ def Anzeige(health, gold):
     turtle.color("white")
     turtle.write(f"Player Health: {health} | Gold: {gold}", font=("Verdana", 15, "normal"))
 
+
+
+
 Levelliste = [""]
 Level_1 = [
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
     "XTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
     "XPFFFFFFFFFFFFFFFFFFFFFFFFFFFFGFX",
+    "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+    "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+    "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+    "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 ]
 Levelliste.append(Level_1)
