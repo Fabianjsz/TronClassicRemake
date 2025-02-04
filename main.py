@@ -91,7 +91,16 @@ class Spieler(turtle.Turtle):
         self.tail.append(Tail(current_x, current_y))
 
     def changeDir(self, dir):
-        self.lastDirection = dir
+        if self.lastDirection == "right" and dir == "left":
+            pass
+        elif self.lastDirection == "left" and dir == "right":
+            pass
+        elif self.lastDirection == "up" and dir == "down":
+            pass
+        elif self.lastDirection == "down" and dir == "up":
+            pass
+        else:
+            self.lastDirection = dir
 
     def kollision(self, other):
         a = self.xcor() - other.xcor()
