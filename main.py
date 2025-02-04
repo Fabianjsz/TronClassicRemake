@@ -132,13 +132,7 @@ class Schatz(turtle.Turtle):
         self.goto(2000, 2000)
         self.hideturtle()
 
-def Anzeige(health, gold):
-    turtle.clear()
-    turtle.penup()
-    turtle.goto(-290, 300)
-    turtle.pendown()
-    turtle.color("white")
-    turtle.write(f"Player Health: {health} | Gold: {gold}", font=("Verdana", 15, "normal"))
+
 
 
 
@@ -225,8 +219,7 @@ while playing:
         print("kolision mit schwnaz, spiel vorbei")
         playing = False
 
-    time.sleep(0.05)
-    Anzeige(player.health, player.gold)  # Zeige Health und Gold des Spielers an
+    time.sleep(0.0005)
     Fenster.update()
 
 Fenster.mainloop()
