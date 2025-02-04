@@ -172,9 +172,11 @@ def Start(n):
                 enemy.goto(screen_x, screen_y)
 
             if character == "F":
+                temp = str(screen_x) + ", " + str(screen_y)
                 feld.goto(screen_x ,screen_y)
                 feld.stamp()
-                Schatzliste.append((screen_x, screen_y))
+                Schatzliste.append(temp)
+                print(Schatzliste)
 
 Stein = Mauer()
 player = Spieler("right", "blue")
@@ -201,11 +203,11 @@ while playing:
     enemy.move()
 
     # Überprüfe, ob der Spieler mit einem Schatz kollidiert
-    for schatz in Schatzliste[:]:
-        if player.kollision():
+    for schatz in Feldliste[:]:
+        if player.kollision(schatz):
             schatz.destroy()  # Zerstöre den Schatz
             Schatzliste.remove(schatz)  # Entferne den Schatz aus der Liste
-        elif enemy.kollision():
+        elif enemy.kollision(schatz):
             schatz.destroy()
             Schatzliste.remove(schatz)
     if player.check_tail_collision():
