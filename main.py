@@ -64,7 +64,6 @@ class Spieler(turtle.Turtle):
         current_x = self.xcor()
         current_y = self.ycor()
 
-
         if self.lastDirection == "up":
             move_to_x = current_x
             move_to_y = current_y + 20
@@ -115,14 +114,15 @@ class Spieler(turtle.Turtle):
             return False
         
     def tailKollision(self):
-        temp = Tailliste[schwanz]
-        a = self.xcord() - temp[0]
-        b = self.ycord() - temp[1]
-        distance = math.sqrt((a**2) + (b**2))
-        if distance < 5:
-            return True
-        else:
-            return False
+        for temp in Tailliste:
+            a = self.xcor() - temp[0]
+            b = self.ycor() - temp[1]
+            distance = math.sqrt((a**2) + (b**2))
+            if distance < 5:
+                return True
+        return False
+
+
 
     def get_tail_position(self):
         return[(Tailliste[0], Tailliste[1]) for tail in Tailliste]
@@ -136,7 +136,7 @@ class Schatz(turtle.Turtle):
     def __init__(self):
         turtle.Turtle.__init__(self)
         self.shape("square")
-        self.color("green")
+        self.color("black")
         self.penup()
         self.speed(0)
         self.gold = 100
@@ -158,6 +158,15 @@ Level_1 =[
 "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
 "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
 "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
+"XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
 "XFFFFPFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFGFFFFFFX",
 "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
 "XFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX",
@@ -166,6 +175,8 @@ Level_1 =[
 "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
 ]
 Levelliste.append(Level_1)
+
+
 
 Schatzliste = []
 Mauerliste = []
@@ -228,13 +239,23 @@ while playing:
         elif enemy.kollision(schatz):
             schatz.destroy()
             Schatzliste.remove(schatz)
+    # In the main loop, checking tail collisions
     for schwanz in Tailliste[:]:
-        if player.tailKollision(schwanz):
-            print("kollision")
+        if player.tailKollision():
+            turtle.penup()
+            turtle.goto(-100, -250)
+            turtle.color("white")
+            turtle.write("Rot hat Gewonnen!",font=("Verdana",15, "normal"))
+            turtle.hideturtle()
             playing = False
-        elif enemy.tailKollision(schwanz):
-            print("kollision")
-            playing = ("kollision")
+        elif enemy.tailKollision():
+            turtle.penup()
+            turtle.goto(-100, -250)
+            turtle.color("white")
+            turtle.write("Blau hat Gewonnen!",font=("Verdana",15, "normal"))
+            turtle.hideturtle()
+            playing = False
+
     """
     if player.check_tail_collision():
         print("kollision mit Schwanz. Spiel vorbei")
@@ -243,7 +264,7 @@ while playing:
         print("kolision mit schwnaz, spiel vorbei")
         playing = False
 """
-    time.sleep(0.0005)
+    time.sleep(0.025)
     Fenster.update()
 
 Fenster.mainloop()
